@@ -32,9 +32,18 @@ st.header('Projeto:')
 
 projeto_selecionado2 = st.selectbox('Selecione o projeto', primeiros_valores)
 
+st.header('Partidos:')
+
+if st.checkbox("Todos", value=True):
+    partidos_selecionados = partidos_unicos
+else:
+    partidos_selecionados = st.multiselect('Selecione os partidos', partidos_unicos, default=partidos_unicos)
+
 st.header('Parlamentares:')
 
-selecionar_parlamentar = st.selectbox('Selecione um parlamentar', ['Todos'] + sorted(parlamentares))
+# Filtrar os parlamentares com base nos partidos selecionados
+parlamentares_selecionados = df.loc[df[('Unnamed: 0_level_0', 'Partido')].isin(partidos_selecionados), ('Votação', 'Parlamentar')].unique()
+selecionar_parlamentar = st.selectbox('Selecione um parlamentar', ['Todos'] + sorted(parlamentares_selecionados))
 parlamentar_selecionado = [selecionar_parlamentar]
 
 if selecionar_parlamentar == 'Todos':
@@ -48,13 +57,6 @@ for tupla in projetos_principais:
         break
 
 df2 = df[['Unnamed: 0_level_0', 'Votação', projeto_selecionado]]
-
-st.header('Partidos:')
-
-if st.checkbox("Todos", value=True):
-    partidos_selecionados = partidos_unicos
-else:
-    partidos_selecionados = st.multiselect('Selecione os partidos', partidos_unicos, default=partidos_unicos)
 
 df_filtrado = df2[
     (df2[('Unnamed: 0_level_0', 'Partido')].isin(partidos_selecionados)) &
