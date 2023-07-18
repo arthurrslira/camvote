@@ -3,8 +3,8 @@ import pandas as pd
 import altair as alt
 
 df = pd.read_excel('camara_deputados_votacoes_nominais_2023.xlsx', header=[0, 1])
-partidos_unicos = sorted(df['Unnamed: 0_level_0', 'Partido'].unique(), reverse=True)
-parlamentares = sorted(df['Votação', 'Parlamentar'].unique(), reverse=True)
+parlamentares = sorted(df['Votação', 'Parlamentar'].unique())
+partidos_unicos = sorted(df['Unnamed: 0_level_0', 'Partido'].unique())
 
 st.markdown(
     "<h2 style='text-align: center; background-color: #307c5c; color: white; padding: 10px;'>Votações Nominais na Câmara dos Deputados - 2023</h2>",
@@ -34,7 +34,7 @@ projeto_selecionado2 = st.selectbox('Selecione o projeto', primeiros_valores)
 
 st.header('Parlamentares:')
 
-selecionar_parlamentar = st.selectbox('Selecione um parlamentar', ['Todos'] + parlamentares)
+selecionar_parlamentar = st.selectbox('Selecione um parlamentar', ['Todos'] + sorted(parlamentares))
 parlamentar_selecionado = [selecionar_parlamentar]
 
 if selecionar_parlamentar == 'Todos':
